@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     private func updateRandomValue() {
-        let value = Int.random(in: 1...3)
+        let value = Int.random(in: 1...100)
         label.text = String(value)
     }
 }
