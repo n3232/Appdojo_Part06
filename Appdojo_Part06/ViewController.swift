@@ -10,18 +10,25 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet private weak var label: UILabel!
     @IBOutlet private weak var slider: UISlider!
+
+    private var answer: Int = ViewController.makeAnswer()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateRandomValue()
+        label.text = String(answer)
     }
+
     @IBAction private func judge(_ sender: Any) {
         let sliderValue = Int(slider.value)
-        let randomValue = Int(label.text!)
+
         // あたり判定
-        var result = "はずれ！"
-        if sliderValue == randomValue {
+        let result: String
+        if sliderValue == answer {
             result = "あたり！"
+        } else {
+            result = "はずれ！"
         }
+
         // アラートの表示
         let alert = UIAlertController(
             title: "結果",
@@ -30,12 +37,17 @@ class ViewController: UIViewController {
         let challengeAgainButton = UIAlertAction(
             title: "再挑戦",
             style: .default,
-            handler: {_ in self.updateRandomValue()})
+            handler: { [weak self] _ in self?.updateRandomValue() })
         alert.addAction(challengeAgainButton)
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
+
     private func updateRandomValue() {
         let value = Int.random(in: 1...100)
         label.text = String(value)
+    }
+
+    private static func makeAnswer() -> Int {
+        Int.random(in: 1...100)
     }
 }
